@@ -27,7 +27,7 @@ BeatHaven is an interactive web application for music cataloging and recommendat
 ├── scripts.js             # Frontend interactivity and animations
 └── README.md              # You’re here!
 
-##⚙️ Features
+##⚙ Features
 --> Responsive UI with a smooth, music-themed design.
 
 -->  Login system to manage access to the dashboard.
@@ -61,7 +61,7 @@ cd BeatHaven
 pip install flask
 
 
-# Run the backend server (if applicable)
+# Run the backend server 
 python app1.py
 
 Customization
@@ -70,7 +70,3 @@ Modify styles.css to tweak the UI theme.
 Add new song data into the backend or connect to your existing music database.
 
 Use scripts.js to add more interactivity, transitions, or real-time search filtering.
-
-### Credits
-Developed by Anjana K, Ajay Varshan, Aadithya S Shah
-Inspired by Spotify's audio features and interactive design models.
