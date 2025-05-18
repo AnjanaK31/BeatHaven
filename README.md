@@ -65,8 +65,8 @@ pip install flask
 python app1.py
 ```
 ### Customization
-Modify styles.css to tweak the UI theme.
+1. Modify styles.css to tweak the UI theme.
 
-Add new song data into the backend or connect to your existing music database.
+2. Add new song data into the backend or connect to your existing music database.
 
-Use scripts.js to add more interactivity, transitions, or real-time search filtering.
+3. Use scripts.js to add more interactivity, transitions, or real-time search filtering.
