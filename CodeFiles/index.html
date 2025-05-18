@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BeatHaven | Music Library</title>
+  <link rel="icon" type="image/png" href="image.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel=stylesheet href="styles.css"/>
+  
+</head>
+<body>
+  <header>
+    <h1 style="display: flex;align-items: center;justify-content: center;background-color: rgba(26,45,52,255);border-radius: 5px;"><img src="image.png" style="width:60px;aspect-ratio: 1;margin-right: 10px;border-radius: 5px;">BeatHaven</h1>
+  </header>
+
+  <div class="top-bar">
+    <h2 id="viewTitle">Music Library</h2>
+    <div class="search-container">
+      <input type="text" id="searchBar" placeholder="Search songs..." />
+    </div>
+    <div class="view-toggle">
+      <button id="allSongsView" class="active">All Songs</button>
+      <button id="topRatedView">Top Rated</button>
+    </div>
+  </div>
+
+  <div class="filters-section">
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="genreFilter">Genre</label>
+        <select id="genreFilter">
+          <option value="">All Genres</option>
+          <!-- Genres will be populated dynamically -->
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="artistFilter">Artist</label>
+        <select id="artistFilter">
+          <option value="">All Artists</option>
+          <!-- Artists will be populated dynamically -->
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Duration (seconds)</label>
+        <div class="duration-inputs">
+          <input type="number" id="minDuration" placeholder="Min" min="0">
+          <input type="number" id="maxDuration" placeholder="Max" min="0">
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Release Year</label>
+        <div class="year-inputs">
+          <input type="number" id="minYear" placeholder="From" min="1900" max="2025">
+          <input type="number" id="maxYear" placeholder="To" min="1900" max="2025">
+        </div>
+      </div>
+      <div class="filter-group">
+        <label for="ratingFilter">Min Rating</label>
+        <select id="ratingFilter">
+          <option value="">Any Rating</option>
+          <option value="1">★ 1+</option>
+          <option value="2">★★ 2+</option>
+          <option value="3">★★★ 3+</option>
+          <option value="4">★★★★ 4+</option>
+          <option value="4.5">★★★★½ 4.5+</option>
+        </select>
+      </div>
+      <div class="filter-buttons">
+        <button class="apply-filters" id="applyFilters">Apply Filters</button>
+        <button class="reset-filters" id="resetFilters">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <div id="resultsCount">Loading songs...</div>
+    <div class="pagination">
+      <button id="prevPage" disabled>&lt; Previous</button>
+      <span id="pageInfo">Page 1</span>
+      <button id="nextPage">Next &gt;</button>
+    </div>
+  </div>
+
+  <div class="songs-grid" id="songsContainer">
+    <div class="loading">Loading songs...</div>
+  </div>
+
+  <!-- Song Details Modal -->
+  <div class="modal" id="songModal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal">&times;</span>
+      <div class="song-details" id="songDetails">
+        <!-- Song details will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts.js">
+    
+  </script>
+</body>
+</html>

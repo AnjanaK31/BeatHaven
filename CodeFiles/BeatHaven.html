@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BeatHaven | Song Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1f1f1f);
+      margin: 0;
+      color: #fff;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #121212;
+      border-bottom: 1px solid #333;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #1DB954;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: #1e1e1e;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    }
+
+    .song-title {
+      font-size: 2rem;
+      color: #1DB954;
+      margin-bottom: 10px;
+    }
+
+    .song-meta {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin: 10px 0;
+    }
+
+    .rating {
+      color: gold;
+      margin-bottom: 20px;
+    }
+
+    .user-rating {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+    }
+    
+    .user-rating h3 {
+      color: #1DB954;
+      margin-bottom: 15px;
+    }
+    
+    .stars-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .stars {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .star {
+      font-size: 2rem;
+      cursor: pointer;
+      color: #444;
+      transition: color 0.2s ease;
+    }
+    
+    .star:hover, .star.active {
+      color: gold;
+    }
+    
+    .rating-submit {
+      background-color: #1DB954;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    
+    .rating-submit:hover {
+      background-color: #14833b;
+    }
+    
+    .rating-msg {
+      color: #1DB954;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      height: 20px;
+    }
+    
+    .additional-details {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+    }
+    
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
+    
+    .detail-item {
+      background-color: #282828;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    
+    .detail-label {
+      font-size: 0.8rem;
+      color: #999;
+      margin-bottom: 5px;
+    }
+    
+    .detail-value {
+      font-size: 1rem;
+      color: #eee;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #1DB954;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #14833b;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      font-size: 1.2rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎵 BeatHaven</h1>
+  </header>
+
+  <div class="container" id="songDetails">
+    <div class="loading">Loading song details...</div>
+  </div>
+
+  <script>
+    const genres = ['Pop', 'Rock', 'Hip-Hop', 'Jazz', 'Classical', 'EDM', 'Indie'];
+    let currentSong = null;
+    let currentRating = 0;
+    
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+    
+    function formatDuration(ms) {
+      if (!ms) return "Unknown";
+      const minutes = Math.floor(ms / 60000);
+      const seconds = Math.floor((ms % 60000) / 1000);
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    function formatDate(dateStr) {
+      if (!dateStr) return "Unknown";
+      try {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      } catch (e) {
+        return dateStr;
+      }
+    }
+
+    async function fetchSongDetails(id) {
+      try {
+        // Show loading state
+        document.getElementById('songDetails').innerHTML = `<div class="loading">Loading song details...</div>`;
+        
+        // Fetch from the specific song endpoint
+        const res = await fetch(`http://localhost:5000/api/songs/${id}`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        
+        const song = await res.json();
+        currentSong = song;
+        
+        if (!song || song.error) {
+          document.getElementById('songDetails').innerHTML = `<p>Song not found.</p>
+                                                            <a href="index.html" class="back-btn">← Back to Home</a>`;
+          return;
+        }
+        
+        // Determine genre based on song ID
+        const validId = parseInt(song.id);
+        const genreIndex = isNaN(validId) ? Math.floor(Math.random() * genres.length) : validId % genres.length;
+        const genre = genres[genreIndex];
+        
+        // Process rating
+        const rating = song.rating || 3.5;
+        const ratingCount = song.rating_count || 0;
+        const ratingText = ratingCount > 0 ? `(${rating} - ${ratingCount} ${ratingCount === 1 ? 'rating' : 'ratings'})` : `(${rating})`;
+        const ratingStars = '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.ceil(rating));
+        
+        // Process artist information
+        const artistRaw = song.artist || song.artists || "Unknown Artist";
+        let parsedArtist = artistRaw;
+        
+        if (typeof artistRaw === 'string' && artistRaw.startsWith("['")) {
+          try {
+            parsedArtist = JSON.parse(artistRaw.replace(/'/g, '"'));
+          } catch (e) {}
+        }
+        
+        const artistName = Array.isArray(parsedArtist) ? parsedArtist.join(', ') : parsedArtist;
+        
+        // Build the HTML for song details
+        const detailsHTML = `
+          <div class="song-title">${song.title || 'Unknown Title'}</div>
+          <div class="song-meta">Artist: ${artistName}</div>
+          <div class="song-meta">Album: ${song.album || 'Unknown Album'}</div>
+          <div class="song-meta">Genre: ${genre}</div>
+          <div class="song-meta rating">Rating: ${ratingStars} ${ratingText}</div>
+          
+          <div class="additional-details">
+            <h3>Additional Details</h3>
+            <div class="detail-grid">
+              <div class="detail-item">
+                <div class="detail-label">Track Number</div>
+                <div class="detail-value">${song.track_number || 'N/A'}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label">Duration</div>
+                <div class="detail-value">${formatDuration(song.duration_ms)}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label">Release Date</div>
+                <div class="detail-value">${formatDate(song.release_date)}</div>
+              </div>
+              <div class="detail-item">
+                <div class="detail-label">Year</div>
+                <div class="detail-value">${song.year || 'Unknown'}</div>
+              </div>
+              ${song.explicit !== undefined ? `
+              <div class="detail-item">
+                <div class="detail-label">Explicit</div>
+                <div class="detail-value">${song.explicit ? 'Yes' : 'No'}</div>
+              </div>` : ''}
+              <div class="detail-item">
+                <div class="detail-label">Time Signature</div>
+                <div class="detail-value">${song.time_signature || 'N/A'}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="user-rating">
+            <h3>Rate This Song</h3>
+            <div class="stars-container">
+              <div class="stars" id="ratingStars">
+                <span class="star" data-value="1">★</span>
+                <span class="star" data-value="2">★</span>
+                <span class="star" data-value="3">★</span>
+                <span class="star" data-value="4">★</span>
+                <span class="star" data-value="5">★</span>
+              </div>
+              <button class="rating-submit" id="submitRating" disabled>Submit Rating</button>
+            </div>
+            <div class="rating-msg" id="ratingMessage"></div>
+          </div>
+          
+          <a href="index.html" class="back-btn">← Back to Home</a>
+        `;
+        
+        document.getElementById('songDetails').innerHTML = detailsHTML;
+        
+        // Add event listeners for the rating stars
+        const stars = document.querySelectorAll('.star');
+        stars.forEach(star => {
+          star.addEventListener('click', function() {
+            const value = parseInt(this.getAttribute('data-value'));
+            currentRating = value;
+            
+            // Update visual state of stars
+            stars.forEach(s => {
+              if (parseInt(s.getAttribute('data-value')) <= value) {
+                s.classList.add('active');
+              } else {
+                s.classList.remove('active');
+              }
+            });
+            
+            // Enable submit button
+            document.getElementById('submitRating').disabled = false;
+          });
+        });
+        
+        // Add event listener for submit rating button
+        document.getElementById('submitRating').addEventListener('click', async () => {
+          if (currentRating === 0) return;
+          
+          try {
+            const response = await fetch(`http://localhost:5000/api/songs/${song.id}/rate`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ rating: currentRating })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+              document.getElementById('ratingMessage').textContent = 'Thank you for rating this song!';
+              
+              // Update the displayed rating
+              const newRatingStars = '★'.repeat(Math.floor(result.new_average_rating)) + 
+                                    '☆'.repeat(5 - Math.ceil(result.new_average_rating));
+              const ratingElement = document.querySelector('.rating');
+              ratingElement.innerHTML = `Rating: ${newRatingStars} (${result.new_average_rating} - ${result.rating_count} ${result.rating_count === 1 ? 'rating' : 'ratings'})`;
+              
+              // Disable submit button after successful rating
+              document.getElementById('submitRating').disabled = true;
+            } else {
+              document.getElementById('ratingMessage').textContent = result.error || 'Failed to submit rating. Please try again.';
+            }
+          } catch (error) {
+            document.getElementById('ratingMessage').textContent = 'Error submitting rating. Please try again.';
+            console.error('Error:', error);
+          }
+        });
+        
+      } catch (err) {
+        console.error('Error loading song data:', err);
+        document.getElementById('songDetails').innerHTML = `
+          <p>Error loading song data.</p>
+          <a href="index.html" class="back-btn">← Back to Home</a>
+        `;
+      }
+    }
+
+    const songId = getQueryParam('id');
+    if (songId) {
+      fetchSongDetails(songId);
+    } else {
+      document.getElementById('songDetails').innerHTML = `
+        <p>Invalid song ID.</p>
+        <a href="index.html" class="back-btn">← Back to Home</a>
+      `;
+    }
+  </script>
+</body>
+</html>

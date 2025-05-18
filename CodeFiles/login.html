@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BeatHaven | Login</title>
+  <link rel="icon" type="image/png" href="image.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a2d34;
+      --secondary-color: #17b978;
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --error-color: #ff6b6b;
+      --success-color: #17b978;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    header {
+      padding: 20px 0;
+      width: 100%;
+      text-align: center;
+      background-color: var(--primary-color);
+    }
+    
+    h1 {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo-img {
+      width: 60px;
+      aspect-ratio: 1;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+    
+    .auth-container {
+      width: 90%;
+      max-width: 400px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: var(--primary-color);
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .auth-tabs {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .auth-tab:first-child {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+    
+    .auth-tab:last-child {
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    
+    .auth-tab.active {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      color: var(--text-color);
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+    }
+    
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #14a067;
+    }
+    
+    .error-message {
+      color: var(--error-color);
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .success-message {
+      color: var(--success-color);
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .form-container {
+      display: none;
+    }
+    
+    .form-container.active {
+      display: block;
+    }
+    
+    .password-group {
+      position: relative;
+    }
+    
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>
+      <img src="image.png" alt="BeatHaven Logo" class="logo-img">
+      BeatHaven
+    </h1>
+  </header>
+
+  <div class="auth-container">
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="login-tab">Login</div>
+      <div class="auth-tab" id="register-tab">Register</div>
+    </div>
+
+    <div class="form-container active" id="login-form">
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" name="username" required>
+        </div>
+        <div class="form-group password-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" required>
+          <span class="toggle-password" onclick="togglePasswordVisibility('login-password', this)">👁️</span>
+        </div>
+        <button type="submit">Login</button>
+        <div id="login-error" class="error-message"></div>
+      </form>
+    </div>
+
+    <div class="form-container" id="register-form">
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="register-username">Username</label>
+          <input type="text" id="register-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" name="email" required>
+        </div>
+        <div class="form-group password-group">
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" name="password" required minlength="8">
+          <span class="toggle-password" onclick="togglePasswordVisibility('register-password', this)">👁️</span>
+        </div>
+        <div class="form-group password-group">
+          <label for="register-confirm-password">Confirm Password</label>
+          <input type="password" id="register-confirm-password" name="confirm-password" required minlength="8">
+          <span class="toggle-password" onclick="togglePasswordVisibility('register-confirm-password', this)">👁️</span>
+        </div>
+        <button type="submit">Register</button>
+        <div id="register-error" class="error-message"></div>
+        <div id="register-success" class="success-message"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Switch between login and register forms
+    document.getElementById('login-tab').addEventListener('click', function() {
+      document.getElementById('login-tab').classList.add('active');
+      document.getElementById('register-tab').classList.remove('active');
+      document.getElementById('login-form').classList.add('active');
+      document.getElementById('register-form').classList.remove('active');
+    });
+
+    document.getElementById('register-tab').addEventListener('click', function() {
+      document.getElementById('register-tab').classList.add('active');
+      document.getElementById('login-tab').classList.remove('active');
+      document.getElementById('register-form').classList.add('active');
+      document.getElementById('login-form').classList.remove('active');
+    });
+
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId, element) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        element.textContent = '👁️‍🗨️';
+      } else {
+        input.type = 'password';
+        element.textContent = '👁️';
+      }
+    }
+
+    // Handle login form submission
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      const errorElement = document.getElementById('login-error');
+      
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', // Important for cookie-based auth
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Redirect to main page after successful login
+          localStorage.setItem('userId',data['user_id'])
+          localStorage.setItem('username',data['username'])
+          window.location.href = `/Ajay_Right/dashboard.html?userId=${data['user_id']}`;
+
+        } else {
+          errorElement.textContent = data.error || 'Login failed. Please check your credentials.';
+          errorElement.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        errorElement.textContent = 'Connection error. Please make sure the server is running.';
+        errorElement.style.display = 'block';
+      }
+    });
+
+    // Handle register form submission
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('register-username').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const confirmPassword = document.getElementById('register-confirm-password').value;
+      const errorElement = document.getElementById('register-error');
+      const successElement = document.getElementById('register-success');
+      
+      // Reset messages
+      errorElement.style.display = 'none';
+      successElement.style.display = 'none';
+
+      // Validate passwords match
+      if (password !== confirmPassword) {
+        errorElement.textContent = 'Passwords do not match';
+        errorElement.style.display = 'block';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include', // Important for cookie-based auth
+          body: JSON.stringify({ username, email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          successElement.textContent = 'Registration successful! Please login.';
+          successElement.style.display = 'block';
+          // Clear form
+          document.getElementById('registerForm').reset();
+          // Switch to login tab after 2 seconds
+          setTimeout(() => {
+            document.getElementById('login-tab').click();
+          }, 2000);
+        } else {
+          errorElement.textContent = data.error || 'Registration failed';
+          errorElement.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Registration error:', error);
+        errorElement.textContent = 'Connection error. Please make sure the server is running.';
+        errorElement.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
