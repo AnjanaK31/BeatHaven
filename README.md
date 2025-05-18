@@ -6,17 +6,17 @@ BeatHaven is an interactive web application for music cataloging and recommendat
 ## Overview
 
 ### Pages & Interfaces
-- **index.html**: Landing page showcasing featured albums and an entry to the dashboard.
-- **login.html**: User login page to access the music dashboard.
-- **dashboard.html**: Interactive dashboard to browse and search songs. Links to detailed track views.
-- **BeatHaven.html**: Dynamic song details page showing metadata like energy, valence, tempo, and more.
+- *index.html*: Landing page showcasing featured albums and an entry to the dashboard.
+- *login.html*: User login page to access the music dashboard.
+- *dashboard.html*: Interactive dashboard to browse and search songs. Links to detailed track views.
+- *BeatHaven.html*: Dynamic song details page showing metadata like energy, valence, tempo, and more.
 
 
 ---
 
 ## Project Structure
 
-```bash
+bash
 .
 ├── app1.py                # Backend logic
 ├── index.html             # Landing page
@@ -27,7 +27,7 @@ BeatHaven is an interactive web application for music cataloging and recommendat
 ├── scripts.js             # Frontend interactivity and animations
 └── README.md              # You’re here!
 
-##⚙ Features
+### ⚙ Features
 --> Responsive UI with a smooth, music-themed design.
 
 -->  Login system to manage access to the dashboard.
@@ -42,17 +42,17 @@ BeatHaven is an interactive web application for music cataloging and recommendat
 
 ### Prerequisites
 
-1. **Python 3.x**
+1. *Python 3.x*
 
-2. **Flask** (or any backend framework you're using)
+2. *Flask* (or any backend framework you're using)
 
-3. **Browser** (Chrome/Brave recommended)
+3. *Browser* (Chrome/Brave recommended)
 
 ---
 
 ### Installation
 
-```bash
+bash
 # Clone the repository
 git clone https://github.com/your-username/BeatHaven.git
 cd BeatHaven
