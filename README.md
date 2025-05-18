@@ -3,7 +3,7 @@ BeatHaven is an interactive web application for music cataloging and recommendat
 
 ---
 
-##  Live Overview
+## Overview
 
 ### Pages & Interfaces
 - **index.html**: Landing page showcasing featured albums and an entry to the dashboard.
@@ -40,16 +40,19 @@ BeatHaven is an interactive web application for music cataloging and recommendat
 
 --> Integrated search and filter capabilities via JavaScript.
 
+## Prerequisites
 
-Prerequisites
-1. Python 3.x
+1. **Python 3.x**
 
-2. Flask (or any backend framework you're using)
+2. **Flask** (or any backend framework you're using)
 
-3. Browser (Chrome/Brave recommended)
+3. **Browser** (Chrome/Brave recommended)
 
-Installation
+---
 
+## Installation
+
+```bash
 # Clone the repository
 git clone https://github.com/your-username/BeatHaven.git
 cd BeatHaven
@@ -57,16 +60,16 @@ cd BeatHaven
 # Install Python dependencies (if using Flask)
 pip install flask
 
-Running the App
+
 # Run the backend server (if applicable)
 python app1.py
 
 Customization
-1. Modify styles.css to tweak the UI theme.
+Modify styles.css to tweak the UI theme.
 
-2. Add new song data into the backend or connect to your existing music database.
+Add new song data into the backend or connect to your existing music database.
 
-3. Use scripts.js to add more interactivity, transitions, or real-time search filtering.
+Use scripts.js to add more interactivity, transitions, or real-time search filtering.
 
 Credits
 Developed by Anjana K, Ajay Varshan, Aadithya S Shah
