@@ -64,7 +64,7 @@ pip install flask
 # Run the backend server 
 python app1.py
 ```
-Customization
+### Customization
 Modify styles.css to tweak the UI theme.
 
 Add new song data into the backend or connect to your existing music database.
